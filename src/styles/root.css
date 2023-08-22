@@ -1,9 +1,16 @@
+@import url('./fonts.css');
+
 * {
     margin: 0px;
     padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Couture';
+    font-weight: bold;
 }
 
-
+/* Global variables */
 :root {
-    --main-color: red;
+    --main-blue: #2195CF;
+    --main-black: rgb(53, 53, 53);
+    --main-blue-gradient: linear-gradient(to right, #1F3CCF 0%, #2195CF 100%);
 }

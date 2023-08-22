@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import { Main } from './components/Main';
+
+import './styles/main.css';
 import './styles/root.css';
-import './styles/canvas.css';
-import { MainCanvas } from './components/MainCanvas';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MainCanvas />
+    <Main />
   </React.StrictMode>
 );

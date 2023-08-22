@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Couture';
+    src: url('../../public/fonts/couture-bld.otf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Couture';
+    src: url('../../public/fonts/couture-bldit.otf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
