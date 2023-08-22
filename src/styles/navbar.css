@@ -33,13 +33,19 @@
 .navbar-subitems-1 {
     font-size: 0.8rem;
     list-style: none;
+    cursor: pointer;
     text-decoration: none;
     flex-direction: row;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 30px;
     color: #2195CF;
     width: 500px;
     height: 100%;
     padding: 0px 20px;
+}
+
+.navbar-subitems-1 > li:hover {
+    text-decoration: underline;
 }
