@@ -9,7 +9,7 @@ export const Main = () => {
 
     return (
         <section className="main">
-            <Navbar changeView={setView} />
+            <Navbar view={view} changeView={setView} />
             <Dashboard currentView={view} />
         </section>
     )

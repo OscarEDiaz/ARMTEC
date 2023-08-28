@@ -1,21 +1,20 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
-export const MapView = () => {
-  const mapContainerRef = useRef(null);
+import '../styles/map.css';
 
-  useEffect(() => {
-    const loader = new Loader({
-      apiKey: "AIzaSyDvC9zUdm6tBSXy_joQjZpmvmmWde7unpc",
-      version: "weekly",
-    });
+export const Map = () => {
+    const mapRef = useRef(null);
+    const [map, setMap] = useState();
 
-    loader.load().then(() => {
-      new window.google.maps.Map(mapContainerRef.current, {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 14,
-      });
-    });
-  }, []);
+    useEffect(() => {
+        if (mapRef.current && !map)
+            setMap(new window.google.maps.Map(mapRef.current, {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8,
+            }));
+    }, [mapRef, map])
 
-  return <div ref={mapContainerRef} style={{ width: "100%", height: "100%" }} />;
-};
+    return (
+        <div className="map" ref={mapRef}></div>
+    )
+}

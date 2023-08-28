@@ -1,0 +1,48 @@
+.telemetry-container {
+    height: 100%;
+    overflow-y: scroll;
+    padding: 0px 40px 40px 40px;
+    width: 100%;
+}
+
+.telemetry-navbar {
+    display: flex;
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgb(255, 255, 255) 50%, rgba(255,255,255,1) 100%);
+    padding: 40px 0px 60px 0px;
+    width: 100%; 
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; 
+    top: 0;
+    z-index: 1; 
+}
+
+.telemetry-title {
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--main-black);
+    margin: 0;
+    padding: 0;
+}
+
+.telemetry-searchbar {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    height: 12px;
+    width: 250px;
+    font-weight: lighter;;
+    padding: 13px;
+    border-radius: 5px;
+    border: 1px solid var(--main-border-color);
+}
+
+.telemetry-cards-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+}

@@ -1,23 +1,8 @@
 .dashboard {
     height: 100%;
-    width: auto;
+    flex-grow: 1 ;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 40px;
-}
-
-.dashboard-title {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--main-black);
-}
-
-.dashboard-cards-container {
-    display: flex;
-    flex-direction: row;
-    align-content: flex-start;
-    flex-wrap: wrap;
-    gap: 40px;
 }
