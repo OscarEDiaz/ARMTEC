@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Dashboard } from "./Dashboard";
-import { Navbar } from "./Navbar"
+
+import { Dashboard } from "./dashboard/Dashboard";
+import { Navbar } from "./dashboard/Navbar";
 
 import '../styles/main.css';
 

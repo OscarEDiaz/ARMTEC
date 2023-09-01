@@ -1,9 +1,7 @@
-import { useState } from "react"
-import { MapView } from "./MapView"
+import { DataTelemetry } from './data_telemetry/DataTelemetry';
+import { MapView } from './map/MapView';
 
-import { DataTelemetry } from "./DataTelemetry"
-
-import '../styles/dashboard.css'
+import '../../styles/dashboard.css';
 
 export const Dashboard = ({ currentView }) => {
     return (
