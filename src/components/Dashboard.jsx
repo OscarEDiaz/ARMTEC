@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { DataTelemetry } from "./DataTelemetry"
 import { MapView } from "./MapView"
 
-import { DataTelemetry } from "./DataTelemetry"
+
 
 import '../styles/dashboard.css'
 
