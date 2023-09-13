@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-
 import { DataComponent } from "./DataComponent";
+import { useGetSensorData } from "../../../hooks/useGetSensorData";
+
 
 import '../../../styles/telemetry.css';
 
 export const DataTelemetry = () => {
+    const sensorData = useGetSensorData();
     const [dataComponents, setDataComponents] = useState([
         {
             sensor: 'Preassure',
@@ -22,7 +24,7 @@ export const DataTelemetry = () => {
             sensor: 'Speed',
             chartType: 'Line'
         }
-    ])
+    ]);
     
     const [filteredData, setFilteredData] = useState([]);
     const [filter, setFilter] = useState('');
@@ -46,6 +48,10 @@ export const DataTelemetry = () => {
         const newData = searchWords(filter);
         setFilteredData(newData);
     }, [filter])
+
+    useEffect(() => {
+
+    })
 
     return (
         <div className="telemetry-container">
