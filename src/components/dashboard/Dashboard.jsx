@@ -1,9 +1,7 @@
-import { DataTelemetry } from "./DataTelemetry"
-import { MapView } from "./MapView"
+import { DataTelemetry } from './data_telemetry/DataTelemetry';
+import { MapView } from './map/MapView';
 
-
-
-import '../styles/dashboard.css'
+import '../../styles/dashboard.css';
 
 export const Dashboard = ({ currentView }) => {
     return (

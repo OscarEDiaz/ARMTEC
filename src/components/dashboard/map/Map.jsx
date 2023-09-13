@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-import '../styles/map.css';
+import '../../../styles/map.css';
 
 export const Map = () => {
     const mapRef = useRef(null);

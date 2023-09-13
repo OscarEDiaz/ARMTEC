@@ -1,4 +1,4 @@
-import '../styles/dataComponent.css';
+import '../../../styles/dataComponent.css';
 
 export const DataComponent = ({ title }) => {
     return (

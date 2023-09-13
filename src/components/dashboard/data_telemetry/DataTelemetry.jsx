@@ -1,8 +1,8 @@
-import { DataComponent } from "./DataComponent"
-import { useState } from "react"
+import { useState, useEffect } from "react";
 
-import '../styles/telemetry.css'
-import { useEffect } from "react"
+import { DataComponent } from "./DataComponent";
+
+import '../../../styles/telemetry.css';
 
 export const DataTelemetry = () => {
     const [dataComponents, setDataComponents] = useState(['Preassure', 'Temperature', 'Temperature2', 'Temperature3', 'hastemp', 'Light', 'Weight', 'Battery', 'GPS', 'Speed'])
