@@ -5,7 +5,25 @@ import { DataComponent } from "./DataComponent";
 import '../../../styles/telemetry.css';
 
 export const DataTelemetry = () => {
-    const [dataComponents, setDataComponents] = useState(['Preassure', 'Temperature', 'Temperature2', 'Temperature3', 'hastemp', 'Light', 'Weight', 'Battery', 'GPS', 'Speed'])
+    const [dataComponents, setDataComponents] = useState([
+        {
+            sensor: 'Preassure',
+            chartType: 'Line'
+        },
+        {
+            sensor: 'Temperature',
+            chartType: 'Line'
+        },
+        {
+            sensor: 'Battery',
+            chartType: 'Line'
+        },
+        {
+            sensor: 'Speed',
+            chartType: 'Line'
+        }
+    ])
+    
     const [filteredData, setFilteredData] = useState([]);
     const [filter, setFilter] = useState('');
 
@@ -17,7 +35,7 @@ export const DataTelemetry = () => {
         const filteredData = [];
 
         dataComponents.forEach(word => {
-            if (word.toLowerCase().includes(key.toLowerCase()))
+            if (word.sensor.toLowerCase().includes(key.toLowerCase()))
                 filteredData.push(word);
         });
 
@@ -38,8 +56,8 @@ export const DataTelemetry = () => {
             <div className="telemetry-cards-container">
                 {
                     filter === ''
-                    ? dataComponents.map((title, index) => <DataComponent key={index} title={title.toUpperCase()} />)
-                    : filteredData.map((title, index) => <DataComponent key={index} title={title.toUpperCase()} />)
+                    ? dataComponents.map((title, index) => <DataComponent key={index} title={title.sensor.toUpperCase()} />)
+                    : filteredData.map((title, index) => <DataComponent key={index} title={title.sensor.toUpperCase()} />)
                 }
             </div>
         </div>
