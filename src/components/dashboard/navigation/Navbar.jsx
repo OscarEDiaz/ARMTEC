@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import '../../styles/navbar.css';
+import '../../../styles/navbar.css';
 
 export const Navbar = ({view, changeView}) => {
     const [isSelected, setIsSelected] = useState(view);
