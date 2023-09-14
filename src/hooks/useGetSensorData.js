@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import mqtt from "precompiled-mqtt";
+import mqtt from 'mqtt'; 
 
 
 export const useGetSensorData = () => {
