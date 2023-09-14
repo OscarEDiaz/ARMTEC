@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { DataComponent } from "./DataComponent";
 import { useGetSensorData } from "../../../hooks/useGetSensorData";
 
-
 import '../../../styles/telemetry.css';
 
 export const DataTelemetry = () => {
