@@ -5,52 +5,29 @@ import { useGetSensorData } from "../../../hooks/useGetSensorData";
 import '../../../styles/telemetry.css';
 
 export const DataTelemetry = () => {
-    const sensorData = useGetSensorData();
-    const [dataComponents, setDataComponents] = useState([
+    const [topic, payload] = useGetSensorData();
+    const [filter, setFilter] = useState('');
+    const [componentsData, setComponentsData] = useState([
         {
             sensor: 'Preassure',
+            measure: 'pascal',
             chartType: 'Line'
         },
         {
             sensor: 'Temperature',
+            measure: 'C',
             chartType: 'Line'
         },
         {
-            sensor: 'Battery',
-            chartType: 'Line'
-        },
-        {
-            sensor: 'Speed',
+            sensor: 'Voltage',
+            measure: 'V',
             chartType: 'Line'
         }
     ]);
     
-    const [filteredData, setFilteredData] = useState([]);
-    const [filter, setFilter] = useState('');
-
     const onFilterChange = (event) => {
         setFilter(event.target.value);
     }
-
-    const searchWords = (key) => {
-        const filteredData = [];
-
-        dataComponents.forEach(word => {
-            if (word.sensor.toLowerCase().includes(key.toLowerCase()))
-                filteredData.push(word);
-        });
-
-        return filteredData;
-    }
-
-    useEffect(() => {
-        const newData = searchWords(filter);
-        setFilteredData(newData);
-    }, [filter])
-
-    useEffect(() => {
-
-    })
 
     return (
         <div className="telemetry-container">
@@ -60,9 +37,19 @@ export const DataTelemetry = () => {
             </div>
             <div className="telemetry-cards-container">
                 {
-                    filter === ''
-                    ? dataComponents.map((title, index) => <DataComponent key={index} title={title.sensor.toUpperCase()} />)
-                    : filteredData.map((title, index) => <DataComponent key={index} title={title.sensor.toUpperCase()} />)
+                    componentsData.map((component) => {
+                        if (component.sensor.toLowerCase().includes(filter.toLowerCase()))
+                            return <DataComponent 
+                                key={component.sensor} 
+                                title={component.sensor.toUpperCase()}
+                                sensor={component.sensor}
+                                measure={component.measure.toUpperCase()} 
+                                chartType={component.chartType} 
+                                payload={topic === component.sensor ? payload : null}   
+                            />
+                        else
+                            return null
+                    })
                 }
             </div>
         </div>
