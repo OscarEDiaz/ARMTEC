@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ReactComponent as Gear } from '../../../assets/svg/gear-solid.svg';
 
 import '../../../styles/navbar.css';
 
@@ -13,6 +14,9 @@ export const Navbar = ({view, changeView}) => {
                     <li onClick={() => changeView('Data')} className={view === 'Data' ? 'selected' : ''}>Data</li>
                     <li onClick={() => changeView('GPS')} className={view === 'GPS' ? 'selected' : ''}>GPS</li>
                     <li onClick={() => changeView('NAV')} className={view === 'NAV' ? 'selected' : ''}>NAV</li>
+                </ul>
+                <ul className='navbar-subitems-2'>
+                    <Gear className='gear'/>
                 </ul>
             </ul>
         </nav>
