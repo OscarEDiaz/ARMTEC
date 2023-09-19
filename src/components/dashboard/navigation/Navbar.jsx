@@ -11,8 +11,8 @@ export const Navbar = ({view, changeView}) => {
                 <li className="main-title">ARM<br></br>TEC</li>
                 <ul className="navbar-subitems-1">
                     <li onClick={() => changeView('DATA')} className={view === 'DATA' ? 'selected' : ''}>DATA</li>
-                    <li onClick={() => changeView('MAP')} className={view === 'GPS' ? 'selected' : ''}>GPS</li>
-                    <li onClick={() => changeView('MAP')} className={view === 'NAV' ? 'selected' : ''}>NAV</li>
+                    <li onClick={() => changeView('MAP')} className={view === 'MAP' ? 'selected' : ''}>GPS</li>
+                    <li onClick={() => changeView('MAP')} className={view === 'MAP' ? 'selected' : ''}>NAV</li>
                 </ul>
                 <ul className='navbar-subitems-2'>
                     <Gear className='gear' onClick={() => changeView('CONFIG')}/>
