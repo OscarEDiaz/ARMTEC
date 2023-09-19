@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DataComponent } from "./DataComponent";
-import { useGetSensorData } from "../../../hooks/useGetSensorData";
+import { useGetSensorData } from "../../../hooks/dashboard/useGetSensorData";
 
 import '../../../styles/telemetry.css';
 
