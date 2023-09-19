@@ -4,6 +4,8 @@ import * as mqtt from 'mqtt'
 
 
 export const useGetSensorData = () => {
+    // Here the data comes from the DB
+    // Add to the props the userID
     const [sensorsData, setSensorsData] = useState([]);
 
     useEffect(() => {
