@@ -5,6 +5,7 @@ import { MapView } from './map/MapView';
 import { useState } from 'react';
 
 import '../../styles/dashboard.css';
+import { ConfigPage } from './dashboard_config/ConfigPage';
 
 export const Dashboard = () => {
     const [view, setView] = useState('DATA');
@@ -12,6 +13,7 @@ export const Dashboard = () => {
     const views = {
         'DATA': <DataTelemetry />,
         'MAP': <MapView /> ,
+        'CONFIG': <ConfigPage />
     }
 
     return (

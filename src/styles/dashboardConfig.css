@@ -1,0 +1,19 @@
+.config-container {
+    height: 100%;
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.config-header {
+    font-size: 2rem;
+    color: var(--main-black);
+    margin: 0;
+    padding: 0;
+}
+
+.mqtt-config-options {
+    flex-grow: 1;
+    width: 100%;
+}
