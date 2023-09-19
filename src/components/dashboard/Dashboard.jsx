@@ -1,17 +1,23 @@
 import { DataTelemetry } from './data_telemetry/DataTelemetry';
+import { Navbar } from './navigation/Navbar';
 import { MapView } from './map/MapView';
 
-import '../../styles/dashboard.css';
-import { Test } from './data_telemetry/Test';
+import { useState } from 'react';
 
-export const Dashboard = ({ currentView }) => {
+import '../../styles/dashboard.css';
+
+export const Dashboard = () => {
+    const [view, setView] = useState('DATA');
+
+    const views = {
+        'DATA': <DataTelemetry />,
+        'MAP': <MapView /> ,
+    }
+
     return (
         <section className="dashboard">
-            {
-                currentView === 'Data'
-                    ? <DataTelemetry />
-                    : <MapView />
-            }
+            <Navbar view={view} changeView={setView} />
+            { views[view] }
         </section>
     )
 }
