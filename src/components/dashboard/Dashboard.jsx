@@ -11,9 +11,9 @@ export const Dashboard = () => {
     const [view, setView] = useState('DATA');
 
     const views = {
-        'DATA': <DataTelemetry />,
-        'MAP': <MapView /> ,
-        'CONFIG': <ConfigPage />
+        DATA: <DataTelemetry />,
+        MAP: <MapView /> ,
+        CONFIG: <ConfigPage />
     }
 
     return (
