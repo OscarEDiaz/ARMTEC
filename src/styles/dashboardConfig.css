@@ -1,19 +1,49 @@
 .config-container {
     height: 100%;
     flex-grow: 1;
-    padding: 40px;
+    padding: 40px 120px;
     display: flex;
     flex-direction: column;
 }
 
 .config-header {
     font-size: 2rem;
-    color: var(--main-black);
+    color: var(--main-blue);
     margin: 0;
     padding: 0;
 }
 
-.mqtt-config-options {
+.config-options {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     width: 100%;
+}
+
+.mqtt-config {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.mqtt-config > label {
+    margin-bottom: 5px;
+    color: var(--main-black-faded);
+}
+
+.general-header {
+    margin: 20px 0px 10px 0px;
+    font-size: 1.5rem;
+}
+
+.general-input {
+    font-size: 0.8rem;
+    height: 35px;
+    width: 50%;
+    font-weight: lighter;;
+    padding: 13px;
+    border-radius: 5px;
+    border: 1px solid var(--main-border-color);
+    margin-bottom: 20px;
 }
