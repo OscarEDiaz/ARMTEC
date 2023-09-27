@@ -23,13 +23,54 @@
 .mqtt-config {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 500px;
     align-items: flex-start;
 }
 
 .mqtt-config > label {
     margin-bottom: 5px;
     color: var(--main-black-faded);
+}
+
+.mqtt-config-btns {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.mqtt-config-btns > input {
+    border-radius: 5px;
+}
+
+.test-btn {
+    height: 35px;
+    width: 50%;
+    background-color: transparent;
+    border: 1px solid var(--main-blue);
+    color: var(--main-blue);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.test-btn:hover {
+    background-color: var(--main-blue);
+    color: #fff;
+}
+
+.loading {
+    background-color: var(--main-blue);
+    color: #fff;
+    animation: loading 1s infinite;
+}
+
+.save-btn {
+    height: 35px;
+    width: 50%;
+    background-color: var(--btn-blue);
+    border: 1px solid var(--btn-blue);
+    color: #fff;
+    cursor: pointer;
 }
 
 .general-header {
@@ -40,10 +81,24 @@
 .general-input {
     font-size: 0.8rem;
     height: 35px;
-    width: 50%;
+    width: 100%;
     font-weight: lighter;;
     padding: 13px;
     border-radius: 5px;
     border: 1px solid var(--main-border-color);
     margin-bottom: 20px;
+}
+
+@keyframes loading {
+    0% {
+        bottom: 0px;
+    }
+
+    50% {
+        bottom: 5px;
+    }
+
+    100% {
+        bottom: 0px;
+    }
 }
