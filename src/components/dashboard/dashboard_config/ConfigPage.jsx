@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import '../../../styles/dashboardConfig.css';
 
+
 export const ConfigPage = () => {
+    const [testIsLoading, setTestIsLoading] = useState(false);
+
     // To retrieve from DB
     const [mqttConfig, setMqttConfig] = useState({
         MQTTURL: '',
@@ -18,7 +21,15 @@ export const ConfigPage = () => {
     }
 
     const onTestButtonPressed = () => {
-        
+        // Only animate and do the button action when its not pressed.
+        if (!testIsLoading) {
+            setTestIsLoading(true);
+            console.log('?');
+            
+            setTimeout(() => {
+                setTestIsLoading(false);
+            }, 10000)
+        }
     }
 
     const onSaveButtonPressed = () => {
@@ -29,7 +40,7 @@ export const ConfigPage = () => {
         <div className="config-container">
             <h1 className='config-header'>Configuration</h1>
             <div className="config-options">
-                <h className="general-header" >MQTT Configuration</h>
+                <h1 className="general-header" >MQTT Configuration</h1>
                 <form className="mqtt-config" action="" method="post">
                     <label htmlFor="mqttUrl">MQTT URL</label>
                     <input className='general-input' onChange={onMqttConfigChange} type="url" name="MQTTURL" id="mqttUrl" value={mqttConfig['MQTTURL']} />
@@ -40,8 +51,8 @@ export const ConfigPage = () => {
                     <label htmlFor="mqttPassword">Password</label>
                     <input className='general-input' onChange={onMqttConfigChange} type="password" name="PASSWORD" id="mqttPassword" value={mqttConfig['PASSWORD']} />
                     <div className="mqtt-config-btns">
-                        <input type="button" value="Test Configuration" />
-                        <input type="button" value="Save Configuration" />
+                        <input onClick={onTestButtonPressed} className={`test-btn ${testIsLoading ? 'loading' : ''}`} type="button" value="Test Configuration" />
+                        <input className='save-btn' type="button" value="Save Configuration" />
                     </div>
                 </form>
             </div>
