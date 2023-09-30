@@ -10,10 +10,13 @@
 
 /* Global variables */
 :root {
-    --main-blue: #2155cf;
     --main-black: rgb(53, 53, 53);
     --main-black-faded: rgb(77, 77, 77);
+    --main-black-more-faded: rgb(101, 101, 101);
+    --main-blue: #2155cf;
     --main-gray: rgb(168, 168, 168);
+    --main-red: rgb(221, 46, 46);
+
     --btn-blue: rgb(18, 134, 196);
 
     --main-border-color: rgb(223, 223, 223);

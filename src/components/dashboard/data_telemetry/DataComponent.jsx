@@ -13,23 +13,32 @@ import {
 
 import { Line } from 'react-chartjs-2';
 
+import { ReactComponent as DeleteIcon } from '../../../assets/svg/trash-solid.svg';
+import { ReactComponent as EditIcon} from '../../../assets/svg/pencil-solid.svg';
+
+import { DeleteSensor } from './DeleteSensor';
+
 import '../../../styles/dataComponent.css';
+import '../../../styles/dataComponentIcons.css';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+);
 
 export const DataComponent = ({ title, sensor, measure, chartType, payload }) => {
+    // CHART DATA STATES
     const [data, setData] = useState([]);
     const [labels, setLabels] = useState([]);
 
-    console.log('SENSOR: ', sensor, 'DATA', data)
-
-    ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        PointElement,
-        LineElement,
-        Title,
-        Tooltip,
-        Legend
-    );
+    // ICON INTERFACES STATES
+    const [isDeleteVisible, setIsDeleteVisible] = useState(false);
+    const [isEditVisible, setIsEditVisible] = useState(false);
 
     const chartColors = {
         'Preassure': {
@@ -100,10 +109,23 @@ export const DataComponent = ({ title, sensor, measure, chartType, payload }) =>
 
     }, [payload])
 
+    const handleDeleteButtonPressed = () => {
+        setIsDeleteVisible(true);
+    }
+
     return (
-        <div className="data-card">
-            <div className='data-title'>{title}</div>
-            {charts[chartType]}
-        </div>
+        <>
+            <div className="data-card">
+                <div className='data-title'>
+                    <p>{title}</p>
+                    <div className="data-card-opts">
+                        <DeleteIcon className='opts-icon delete-icon' onClick={handleDeleteButtonPressed} />
+                        <EditIcon className='opts-icon edit-icon' />
+                    </div>
+                </div>
+                {charts[chartType]}
+                <DeleteSensor isVisible={isDeleteVisible} setIsVisible={setIsDeleteVisible} />
+            </div>
+        </>
     )
 }

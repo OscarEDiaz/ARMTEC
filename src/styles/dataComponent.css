@@ -22,4 +22,31 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    flex-shrink: 0;
+}
+
+.data-card-opts {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    flex-grow: 1;
+    gap: 20px;
+}
+
+.opts-icon {
+    height: 40%;
+    fill: var(--main-black-more-faded);
+    transition: fill 0.2s ease;
+    cursor: pointer;
+}
+
+.delete-icon:hover {
+    transition: fill 0.2s ease;
+    fill: var(--main-red);
+}
+
+.edit-icon:hover {
+    transition: fill 0.2s ease;
+    fill: var(--main-blue);
 }
