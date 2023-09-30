@@ -1,10 +1,7 @@
-import { useState } from 'react';
-import { ReactComponent as Gear } from '../../../assets/svg/gear-solid.svg';
-
+import { Gear } from './Gear';
 import '../../../styles/navbar.css';
 
 export const Navbar = ({view, changeView}) => {
-
     return (
         <nav className="navbar">
             <ul className="navbar-items">
@@ -15,7 +12,7 @@ export const Navbar = ({view, changeView}) => {
                     <li onClick={() => changeView('MAP')} className={view === 'MAP' ? 'selected' : ''}>NAV</li>
                 </ul>
                 <ul className='navbar-subitems-2'>
-                    <Gear className='gear' onClick={() => changeView('CONFIG')}/>
+                    <Gear changeView={changeView} />
                 </ul>
             </ul>
         </nav>
