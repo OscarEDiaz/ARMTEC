@@ -1,4 +1,5 @@
 import { Gear } from './Gear';
+
 import '../../../styles/navbar.css';
 
 export const Navbar = ({view, changeView}) => {

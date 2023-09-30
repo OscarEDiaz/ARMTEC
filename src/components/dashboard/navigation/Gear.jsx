@@ -10,22 +10,29 @@ export const Gear = ({changeView}) => {
     const [returningTime, setReturningTime] = useState(0);
     const [returningTimer, setReturningTimer] = useState(null);
 
-    const animationDuration = 1;
+    const animationDuration = 0.5;
+    const animationDurationMs= animationDuration * 1000;
 
     const handleHover = () => {
         // If a returning animation was on course
+        console.log('isReturning: ', isReturning)
         if (isReturning) {
             setIsReturning(false);
             setNewStyle({});
 
+            // Time where the returning animation ended
             const currentTime = new Date();
-            setBegginingTime(begginingTime + currentTime);
+            const timeFromReturning = currentTime - returningTime;
+
+            const remaining = animationDuration - returningTime.getMilliseconds();
+
+            console.log('TIME FROM RETURNING: ', timeFromReturning)
 
             // Clear the timer to end returning animation
             clearTimeout(returningTimer);
 
             // Calculate the time to complete the animation
-            const remainingTime = animationDuration - returningTime;
+            const remainingTime = (animationDurationMs - remaining - timeFromReturning)/1000;
 
             const remainingDegrees = (remainingTime * 360)/animationDuration;
 
@@ -59,10 +66,13 @@ export const Gear = ({changeView}) => {
         // Get current time to calculate the time passed since the beggining of the animation
         const currentTime = new Date();
         const timePassed = currentTime - begginingTime;
+
+        console.log('Time passed since the beggining of the animation: ', timePassed)
         
         // If the animation hasn't ended
-        if (timePassed <= animationDuration) {
+        if (timePassed <= animationDurationMs) {
             // Gear animation is in reverse
+            console.log('Setting isReturning to true')
             setIsReturning(true);
 
             // Save time returning time
@@ -70,7 +80,6 @@ export const Gear = ({changeView}) => {
             setReturningTime(returnTime);
 
             const timeInSeconds = timePassed/1000;
-
             const remainingDegrees = (timeInSeconds * 360)/animationDuration;
 
             const style = {
@@ -107,7 +116,7 @@ export const Gear = ({changeView}) => {
             // Start timer
             const timer = setTimeout(() => {
                 setIsReturning(false);
-                console.log('Finished');
+                console.log('Finished returning');
             }, timePassed);
 
             setReturningTimer(timer);
