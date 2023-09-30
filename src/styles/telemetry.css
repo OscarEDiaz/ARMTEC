@@ -44,3 +44,27 @@
     flex-wrap: wrap;
     gap: 40px;
 }
+
+.add-sensor-btn {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 40px;
+    cursor: pointer;
+    right: 40px;
+    width: 65px;
+    height: 65px;
+    font-size: 1rem;
+    color: #fff;
+    border-radius: 100%;
+    background-color: var(--main-blue);
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.add-sensor-btn:active {
+    transition: all 0.2s ease;
+    width: 60px;
+    height: 60px;
+}
