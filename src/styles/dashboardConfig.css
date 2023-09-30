@@ -67,8 +67,8 @@
 .save-btn {
     height: 35px;
     width: 50%;
-    background-color: var(--btn-blue);
-    border: 1px solid var(--btn-blue);
+    background-color: var(--main-blue);
+    border: 1px solid var(--main-blue);
     color: #fff;
     cursor: pointer;
 }
