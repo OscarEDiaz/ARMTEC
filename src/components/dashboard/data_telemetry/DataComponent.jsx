@@ -16,10 +16,11 @@ import { Line } from 'react-chartjs-2';
 import { ReactComponent as DeleteIcon } from '../../../assets/svg/trash-solid.svg';
 import { ReactComponent as EditIcon} from '../../../assets/svg/pencil-solid.svg';
 
-import { DeleteSensor } from './DeleteSensor';
+import { DeleteSensor } from './data_component_options/DeleteSensor';
 
 import '../../../styles/dataComponent.css';
 import '../../../styles/dataComponentIcons.css';
+import { EditSensor } from './data_component_options/EditSensor';
 
 ChartJS.register(
     CategoryScale,
@@ -113,6 +114,10 @@ export const DataComponent = ({ title, sensor, measure, chartType, payload }) =>
         setIsDeleteVisible(true);
     }
 
+    const handleEditButtonPressed = () => {
+        setIsEditVisible(true);
+    }
+
     return (
         <>
             <div className="data-card">
@@ -120,12 +125,13 @@ export const DataComponent = ({ title, sensor, measure, chartType, payload }) =>
                     <p>{title}</p>
                     <div className="data-card-opts">
                         <DeleteIcon className='opts-icon delete-icon' onClick={handleDeleteButtonPressed} />
-                        <EditIcon className='opts-icon edit-icon' />
+                        <EditIcon className='opts-icon edit-icon' onClick={handleEditButtonPressed} />
                     </div>
                 </div>
                 {charts[chartType]}
-                <DeleteSensor isVisible={isDeleteVisible} setIsVisible={setIsDeleteVisible} />
+                <EditSensor isVisible={isEditVisible} setIsVisible={setIsEditVisible} />
             </div>
+            <DeleteSensor isVisible={isDeleteVisible} setIsVisible={setIsDeleteVisible} />
         </>
     )
 }
