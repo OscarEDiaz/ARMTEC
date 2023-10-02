@@ -1,3 +1,4 @@
+/* DELETE ICON STYLES */
 .blurred-container {
     display: flex;
     justify-content: center;
@@ -100,4 +101,110 @@
     transition: opacity 0.2s ease;
     opacity: 0;
     display: none;
+}
+
+/* EDIT ICONS STYLES */
+.edit-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.451);
+    transition: transform 0.3s ease, opacity 0.3s ease, backdrop-filter 1s ease;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px 20px;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    border-radius: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(0px);
+    opacity: 0;
+}
+
+.show-edit {
+    transition: transform 0.3s ease, opacity 0.3s ease, backdrop-filter 1s ease;
+    transform-origin: 0 50%;
+    backdrop-filter: blur(11px);
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.back-arrow {
+    height: 25px;
+    fill: var(--main-black-more-faded);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-arrow:hover {
+    fill: var(--main-blue);
+}
+
+.edit-panel-nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.save-config {
+    padding: 5px 20px;
+    border: 1px solid var(--main-blue);
+    border-radius: 5px;
+    background-color: #fff;
+    color: var(--main-blue);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.save-config:hover {
+    transition: all 0.3s ease;
+    background-color: var(--main-blue);
+    color: #fff;
+}
+
+.save-config:active {
+    transition: all 0.3s ease;
+    transform: scale(1.1);
+}
+
+.edit-panel-config {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.edit-panel-config-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.edit-panel-config-form > label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.input-edit-panel {
+    width: 100%;
+    border: 1px solid var(--main-border-color);
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.input-color-edit-panel {
+    width: 30%;
+    border: 1px solid var(--main-border-color);
+    padding: 3px;
+    border-radius: 5px;
 }
