@@ -1,6 +1,19 @@
+import { useState } from 'react';
+
 import { ReactComponent as BackArrow } from '../../../../assets/svg/arrow-left-solid.svg';
 
+import { SensorConfigForm } from '../SensorConfigForm';
+
 export const EditSensor = ({isVisible, setIsVisible}) => {
+    const [sensorConfig, setSensorConfig] = useState({
+        TITLE: '',
+        TOPIC: '',
+        MUNIT: '',
+        CTYPE: 'LINE',
+        BGC: '#ffffff',
+        BRC: '#ffffff',
+    });
+
     const test = () => {
         setIsVisible(false);
     }
@@ -14,14 +27,7 @@ export const EditSensor = ({isVisible, setIsVisible}) => {
                 </button>
             </div>
             <div className="edit-panel-config">
-                <form action="" className='edit-panel-config-form'>
-                    <label htmlFor="">Title</label>
-                    <input type="text" name="" id="" className='input-edit-panel' />
-                    <label htmlFor="">Topic</label>
-                    <input type="text" name="" id="" className='input-edit-panel' />
-                    <label htmlFor="">Color</label>
-                    <input type="color" name="" id="" className='input-color-edit-panel' />
-                </form>
+                <SensorConfigForm sensorConfig={sensorConfig} setSensorConfig={setSensorConfig} />
             </div>
         </div>
     )
