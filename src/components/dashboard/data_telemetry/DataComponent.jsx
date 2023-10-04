@@ -17,10 +17,10 @@ import { ReactComponent as DeleteIcon } from '../../../assets/svg/trash-solid.sv
 import { ReactComponent as EditIcon} from '../../../assets/svg/pencil-solid.svg';
 
 import { DeleteSensor } from './data_component_options/DeleteSensor';
-
-import '../../../styles/dataComponent.css';
-import '../../../styles/dataComponentIcons.css';
 import { EditSensor } from './data_component_options/EditSensor';
+
+import '../../../styles/dataComponentIcons.css';
+import '../../../styles/dataComponent.css';
 
 ChartJS.register(
     CategoryScale,
@@ -32,7 +32,7 @@ ChartJS.register(
     Legend
 );
 
-export const DataComponent = ({ title, sensor, measure, chartType, payload }) => {
+export const DataComponent = ({ id, title, borderColor, chartType, measureUnit, backgroundColor, payload, refresh }) => {
     // CHART DATA STATES
     const [data, setData] = useState([]);
     const [labels, setLabels] = useState([]);
@@ -41,30 +41,15 @@ export const DataComponent = ({ title, sensor, measure, chartType, payload }) =>
     const [isDeleteVisible, setIsDeleteVisible] = useState(false);
     const [isEditVisible, setIsEditVisible] = useState(false);
 
-    const chartColors = {
-        'Preassure': {
-            borderColor: 'rgb(252, 186, 3)',
-            backgroundColor: 'rgba(252, 186, 3, 0.5)'
-        },
-        'Temperature': {
-            borderColor: 'rgb(199, 123, 16)',
-            backgroundColor: 'rgba(199, 123, 16, 0.5)'
-        },
-        'Voltage': {
-            borderColor: 'rgb(235, 52, 210)',
-            backgroundColor: 'rgba(235, 52, 210, 0.5)'
-        }
-    }
-
 
     const chartData = {
         labels: labels,
         datasets: [
             {
-                label: measure,
+                label: measureUnit,
                 data: data,
-                borderColor: chartColors[sensor].borderColor,
-                backgroundColor: chartColors[sensor].backgroundColor,
+                borderColor: borderColor,
+                backgroundColor: backgroundColor,
             }
         ]
     }
@@ -79,7 +64,7 @@ export const DataComponent = ({ title, sensor, measure, chartType, payload }) =>
     };
 
     const charts = {
-        'Line': <Line options={options} data={chartData} style={{ height: '100%' }} />
+        'LINE': <Line options={options} data={chartData} style={{ height: '100%' }} />
     }
 
     useEffect(() => {
@@ -89,10 +74,9 @@ export const DataComponent = ({ title, sensor, measure, chartType, payload }) =>
         const timeStamp = payload.label;
         const measure = payload.measure;
 
-
         setData(prevData => {
             if (prevData.length === 20) {
-                const newData = prevData.slice(1);
+                const newData = prevData.slice(5);
                 return [...newData, measure];
             } else {
                 return [...prevData, measure];
@@ -101,7 +85,7 @@ export const DataComponent = ({ title, sensor, measure, chartType, payload }) =>
 
         setLabels(prevLabels => {
             if (prevLabels.length === 20) {
-                const newLabels = prevLabels.slice(1);
+                const newLabels = prevLabels.slice(5);
                 return [...newLabels, timeStamp];
             } else {
                 return [...prevLabels, timeStamp];
@@ -131,7 +115,7 @@ export const DataComponent = ({ title, sensor, measure, chartType, payload }) =>
                 {charts[chartType]}
                 <EditSensor isVisible={isEditVisible} setIsVisible={setIsEditVisible} />
             </div>
-            <DeleteSensor isVisible={isDeleteVisible} setIsVisible={setIsDeleteVisible} />
+            <DeleteSensor cardID={id} isVisible={isDeleteVisible} setIsVisible={setIsDeleteVisible} refresh={refresh} />
         </>
     )
 }
