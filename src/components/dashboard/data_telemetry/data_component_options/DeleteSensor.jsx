@@ -1,11 +1,35 @@
+import axios from 'axios';
 
-export const DeleteSensor = ({isVisible, setIsVisible}) => {
+
+export const DeleteSensor = ({ cardID, isVisible, setIsVisible, refresh }) => {
     const handleCancelPressed = () => {
         setIsVisible(false);
     }
 
+    const deleteSensor = async (id) => {
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }
+
+            const data = {id}
+
+            const response = await axios.post(`http://127.0.0.1:5000/db/sensors/remove?user_id=1`, data, config);
+
+            console.log('SUccesful post: ', response.data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const handleDeletePressed = () => {
         setIsVisible(false);
+
+        deleteSensor(cardID);
+        refresh(true);
     }
 
 
