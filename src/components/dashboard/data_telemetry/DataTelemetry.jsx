@@ -1,35 +1,19 @@
 import { useState } from "react";
+
 import { DataComponent } from "./DataComponent";
-import { useGetSensorData } from "../../../hooks/dashboard/useGetSensorData";
 import { SensorConfig } from "./SensorConfig";
+
+import { useGetSensors } from "../../../hooks/dashboard/useGetSensors";
 
 import '../../../styles/telemetry.css';
 
 export const DataTelemetry = () => {
     // MQTT DATA STATES
-    const [topic, payload] = useGetSensorData();
+    const [refresh, setRefresh] = useState(false);
+    const [components, isLoading] = useGetSensors(refresh, setRefresh);
     
     // SEARCH BAR STATES
     const [filter, setFilter] = useState('');
-
-    // COMPONENTS DATA FROM DB STATES
-    const [componentsData, setComponentsData] = useState([
-        {
-            sensor: 'Preassure',
-            measure: 'pascal',
-            chartType: 'Line'
-        },
-        {
-            sensor: 'Temperature',
-            measure: 'C',
-            chartType: 'Line'
-        },
-        {
-            sensor: 'Voltage',
-            measure: 'V',
-            chartType: 'Line'
-        }
-    ]);
 
     // ADD SENSOR INTERFACE STATES
     const [showConfiguration, setShowConfiguration] = useState(false);
@@ -53,28 +37,33 @@ export const DataTelemetry = () => {
 
     return (      
         <div className="telemetry-container" onClick={handleTelemetryContainerPressed} >
-            <div className="telemetry-navbar">
+            <div className="telemetry-navbar" onClick={handleTelemetryContainerPressed} >
                 <h1 className="telemetry-title">Data Telemetry</h1>
                 <input className="telemetry-searchbar" placeholder="Buscar" value={filter} onChange={onFilterChange} type="text" />
             </div>
-            <div className="telemetry-cards-container" >
+            <div className="telemetry-cards-container" onClick={handleTelemetryContainerPressed} >
                 {
-                    componentsData.map((component) => {
-                        if (component.sensor.toLowerCase().includes(filter.toLowerCase()))
+                    isLoading 
+                    ? <h1>LOADING</h1>
+                    : components.map((component) => {
+                        if (component.title.toLowerCase().includes(filter.toLowerCase()))
                             return <DataComponent 
-                                key={component.sensor} 
-                                title={component.sensor.toUpperCase()}
-                                sensor={component.sensor}
-                                measure={component.measure.toUpperCase()} 
+                                key={component.id}
+                                id={component.id}
+                                title={component.title.toUpperCase()}
+                                borderColor={component.borderColor}
                                 chartType={component.chartType} 
-                                payload={topic === component.sensor ? payload : null}   
+                                measureUnit={component.measureUnit.toUpperCase()} 
+                                backgroundColor={component.backgroundColor}
+                                payload={component.payload}
+                                refresh={setRefresh}
                             />
                         else
                             return null
                     })
                 }
             </div>
-            <SensorConfig isVisible={showConfiguration} />
+            <SensorConfig isVisible={showConfiguration} setIsVisible={setShowConfiguration} refresh={setRefresh} />
             <button className="add-sensor-btn" onClick={handleAddSensorPressed}>
                 {/* Replace with icon */}
                 +
