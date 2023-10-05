@@ -6,8 +6,8 @@ export const SensorConfigForm = ({ sensorConfig, setSensorConfig }) => {
             ...sensorConfig,
             [name]: value
         })
-    }
-
+    };
+    
     return (
         <form className='sensor-props-form' action="">
             <label htmlFor="">Title</label>
