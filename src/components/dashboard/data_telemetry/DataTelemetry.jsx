@@ -50,10 +50,11 @@ export const DataTelemetry = () => {
                             return <DataComponent 
                                 key={component.id}
                                 id={component.id}
-                                title={component.title.toUpperCase()}
+                                title={component.title}
+                                topic={component.topic}
                                 borderColor={component.borderColor}
                                 chartType={component.chartType} 
-                                measureUnit={component.measureUnit.toUpperCase()} 
+                                measureUnit={component.measureUnit} 
                                 backgroundColor={component.backgroundColor}
                                 payload={component.payload}
                                 refresh={setRefresh}
