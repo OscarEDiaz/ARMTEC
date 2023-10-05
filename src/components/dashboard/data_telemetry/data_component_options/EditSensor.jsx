@@ -4,19 +4,14 @@ import { ReactComponent as BackArrow } from '../../../../assets/svg/arrow-left-s
 
 import { SensorConfigForm } from '../SensorConfigForm';
 
-export const EditSensor = ({isVisible, setIsVisible}) => {
-    const [sensorConfig, setSensorConfig] = useState({
-        TITLE: '',
-        TOPIC: '',
-        MUNIT: '',
-        CTYPE: 'LINE',
-        BGC: '#ffffff',
-        BRC: '#ffffff',
-    });
+export const EditSensor = ({ sensorData, isVisible, setIsVisible }) => {
+    const [sensorConfig, setSensorConfig] = useState(sensorData);
+
+    console.log('Sensor initial config ',  sensorConfig)
 
     const test = () => {
         setIsVisible(false);
-    }
+    };
     
     return (
         <div className={`edit-panel ${isVisible && 'show-edit'}`}>

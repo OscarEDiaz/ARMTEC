@@ -32,7 +32,7 @@ ChartJS.register(
     Legend
 );
 
-export const DataComponent = ({ id, title, borderColor, chartType, measureUnit, backgroundColor, payload, refresh }) => {
+export const DataComponent = ({ id, title, topic,  borderColor, chartType, measureUnit, backgroundColor, payload, refresh }) => {
     // CHART DATA STATES
     const [data, setData] = useState([]);
     const [labels, setLabels] = useState([]);
@@ -46,13 +46,22 @@ export const DataComponent = ({ id, title, borderColor, chartType, measureUnit, 
         labels: labels,
         datasets: [
             {
-                label: measureUnit,
+                label: measureUnit.toUpperCase(),
                 data: data,
                 borderColor: borderColor,
                 backgroundColor: backgroundColor,
             }
         ]
     }
+
+    const initialData = {
+        TITLE: title,
+        TOPIC: topic,
+        MUNIT: measureUnit,
+        CTYPE: chartType,
+        BGC: backgroundColor,
+        BRC: borderColor,
+    };
 
     const options = {
         responsive: true,
@@ -65,7 +74,7 @@ export const DataComponent = ({ id, title, borderColor, chartType, measureUnit, 
 
     const charts = {
         'LINE': <Line options={options} data={chartData} style={{ height: '100%' }} />
-    }
+    };
 
     useEffect(() => {
         if (!payload)
@@ -106,14 +115,14 @@ export const DataComponent = ({ id, title, borderColor, chartType, measureUnit, 
         <>
             <div className="data-card">
                 <div className='data-title'>
-                    <p>{title}</p>
+                    <p>{title.toUpperCase()}</p>
                     <div className="data-card-opts">
                         <DeleteIcon className='opts-icon delete-icon' onClick={handleDeleteButtonPressed} />
                         <EditIcon className='opts-icon edit-icon' onClick={handleEditButtonPressed} />
                     </div>
                 </div>
                 {charts[chartType]}
-                <EditSensor isVisible={isEditVisible} setIsVisible={setIsEditVisible} />
+                <EditSensor sensorData={initialData} isVisible={isEditVisible} setIsVisible={setIsEditVisible} />
             </div>
             <DeleteSensor cardID={id} isVisible={isDeleteVisible} setIsVisible={setIsDeleteVisible} refresh={refresh} />
         </>
