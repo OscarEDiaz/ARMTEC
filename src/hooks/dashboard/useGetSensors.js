@@ -77,6 +77,12 @@ export const useGetSensors = (refresh, setRefresh) => {
                 });
             }
         }
+
+        return () => {
+            if (mqttClientRef) {
+                mqttClientRef.current.end();
+            }
+        }
     }, [isLoading]);
 
     useEffect(() => {
