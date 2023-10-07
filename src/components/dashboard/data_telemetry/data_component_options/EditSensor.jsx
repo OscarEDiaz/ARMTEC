@@ -7,8 +7,6 @@ import { SensorConfigForm } from '../SensorConfigForm';
 export const EditSensor = ({ sensorData, isVisible, setIsVisible }) => {
     const [sensorConfig, setSensorConfig] = useState(sensorData);
 
-    console.log('Sensor initial config ',  sensorConfig)
-
     const test = () => {
         setIsVisible(false);
     };
