@@ -33,7 +33,7 @@ ChartJS.register(
     Legend
 );
 
-export const DataComponent = ({ id, title, topic, borderColor, chartType, measureUnit, backgroundColor, payload, refresh }) => {
+export const DataComponent = ({ neighboursData, registerMeasure, currentIndex, id, title, topic, borderColor, chartType, measureUnit, backgroundColor, payload, refresh }) => {
     // CHART DATA STATES
     const [data, setData] = useState([]);
     const [labels, setLabels] = useState([]);
@@ -42,23 +42,25 @@ export const DataComponent = ({ id, title, topic, borderColor, chartType, measur
     const [isDeleteVisible, setIsDeleteVisible] = useState(false);
     const [isEditVisible, setIsEditVisible] = useState(false);
 
+    const [isRegistering, setIsRegistering] = useState(true);
+
     const dataCard = useRef(null);
 
     const [isDragged, setIsDragged] = useState(false);
     const [isReleased, setIsReleased] = useState(false);
 
-    const [mouseCoords, setMouseCoords] = useState({x: 0, y: 0});
-    const [initialMouseCoords, setinitialMouseCoords] = useState({x: 0, y: 0});
+    const [mouseCoords, setMouseCoords] = useState({ x: 0, y: 0 });
+    const [initialMouseCoords, setinitialMouseCoords] = useState({ x: 0, y: 0 });
 
-    const [cardCoords, setCardCoords] = useState({x: 0, y: 0});
-    
+    const [relativeCardCoords, setRelativeCardCoords] = useState({ x: 0, y: 0 });
+    const [cardCoords, setCardCoords] = useState({
+        topLeftCorner: 0,
+        topRightCorner: 0,
+        bottomRightCorner: 0,
+        bottomLeftCorner: 0
+    });
 
-    const mouseMoveHandler = (event) => {
-        const x = event.clientX;
-        const y = event.clientY;
-
-        setMouseCoords({x, y});
-    }
+    const [text, setText] = useState('')
 
 
     const chartData = {
@@ -95,6 +97,141 @@ export const DataComponent = ({ id, title, topic, borderColor, chartType, measur
         'LINE': <Line options={options} data={chartData} style={{ height: '100%' }} />
     };
 
+    // --- [EVENT HANDLERS] ---
+    const handleDeleteButtonPressed = () => {
+        setIsDeleteVisible(true);
+    }
+
+    const handleEditButtonPressed = () => {
+        setIsEditVisible(true);
+    }
+
+    const handleDrag = () => {
+        setinitialMouseCoords({ ...mouseCoords });
+        setIsDragged(true);
+        setIsReleased(false);
+    }
+
+    const handleRelease = () => {
+        setRelativeCardCoords({ x: 0, y: 0 });
+        setCardCoords({
+            topLeftCorner: 0,
+            topRightCorner: 0,
+            bottomRightCorner: 0,
+            BottomLeftCorner: 0
+        })
+        setIsDragged(false);
+        setIsReleased(true);
+    }
+
+    // -- [MAIN HANDLERS] -- 
+    const mouseMoveHandler = (event) => {
+        const x = event.clientX;
+        const y = event.clientY;
+
+        setMouseCoords({ x, y });
+    }
+
+    const handleIntrusion = (cardCoords) => {
+        neighboursData.forEach(neighbour => {
+            if (neighbour.id !== id) {
+                // Top neighbour coords
+                const neighbourTopRightX = neighbour.cardInitialCoords['topRightCorner'].x;
+                const neighbourTopRightY = neighbour.cardInitialCoords['topRightCorner'].y;
+                const neighbourTopLeftX = neighbour.cardInitialCoords['topLeftCorner'].x;
+                const neighbourTopLeftY = neighbour.cardInitialCoords['topLeftCorner'].y;
+
+                // Bottom neighbout coords
+                const neighbourBottomRightX = neighbour.cardInitialCoords['bottomRightCorner'].x;
+                const neighbourBottomRightY = neighbour.cardInitialCoords['bottomRightCorner'].y;
+                const neighbourBottomLeftX = neighbour.cardInitialCoords['bottomLeftCorner'].x;
+                const neighbourBottomLeftY = neighbour.cardInitialCoords['bottomLeftCorner'].y;
+
+
+                const intrudingFromTopRightCorner = cardCoords.topRightCorner.x >= neighbourTopLeftX && cardCoords.topRightCorner.y >= neighbourTopLeftY;
+                const topTreshold = cardCoords.topRightCorner.y >= neighbourTopLeftY;
+                const rightTreshold = cardCoords.topRightCorner.x <= neighbourTopRightX || cardCoords.bottomRightCorner.x <= neighbourBottomRightX;
+
+                const intrudingFromBottomRightCorner = cardCoords.bottomRightCorner.x >= neighbourBottomLeftX && cardCoords.bottomRightCorner.y <= neighbourBottomLeftY;
+                const bottomTreshold = cardCoords.bottomRightCorner.y <= neighbourBottomLeftY;
+
+                if (intrudingFromTopRightCorner && rightTreshold && topTreshold) {
+                    setText('Intruding BL')
+                }
+                
+                if (intrudingFromBottomRightCorner && bottomTreshold && rightTreshold) {
+                    setText('Intruding TL')
+                }
+            }
+        });
+    }
+
+    // -- [EFECTS HANDLERS] --
+    // Retrieve card initial coordinates and uptade the neighbours state with those to share own measures
+    useLayoutEffect(() => {
+        const card = dataCard.current.getBoundingClientRect();
+        const topLeftCorner = { x: card.left, y: card.top };
+        const topRightCorner = { x: card.right, y: card.top };
+        const bottomLeftCorner = { x: card.left, y: card.bottom };
+        const bottomRightCorner = { x: card.right, y: card.bottom };
+
+        const cardInitialCoords = {
+            topLeftCorner,
+            topRightCorner,
+            bottomRightCorner,
+            bottomLeftCorner
+        }
+
+        setCardCoords({ topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner })
+
+        setIsRegistering(true);
+        // Maybe add binary search to reduce time to search for the component
+        registerMeasure(prevData => {
+            const updatedCards = prevData.map((component) => {
+                if (component.id === id) {
+                    return { ...component, cardInitialCoords, 'index': currentIndex }
+                }
+
+                return component;
+            })
+
+            return updatedCards;
+        });
+
+        setIsRegistering(false);
+    }, [])
+
+    // Add event listeners, always watch for cursor coordinates to prevent errors
+    useEffect(() => {
+        window.addEventListener('mousemove', mouseMoveHandler);
+
+        return () => {
+            window.removeEventListener('mousemove', mouseMoveHandler);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (isDragged && !isReleased && !isRegistering) {
+            const x = mouseCoords.x - initialMouseCoords.x;
+            const y = mouseCoords.y - initialMouseCoords.y;
+
+            const card = dataCard.current.getBoundingClientRect();
+            const topLeftCorner = { x: card.left, y: card.top };
+            const topRightCorner = { x: card.right, y: card.top };
+            const bottomLeftCorner = { x: card.left, y: card.bottom };
+            const bottomRightCorner = { x: card.right, y: card.bottom };
+
+
+            const currentDataCardCoords = { topLeftCorner, topRightCorner, bottomRightCorner, bottomLeftCorner };
+
+            handleIntrusion(currentDataCardCoords);
+
+            setCardCoords({ topLeftCorner, topRightCorner, bottomRightCorner, bottomLeftCorner });
+            setRelativeCardCoords({ x, y });
+
+        }
+    }, [mouseCoords, isDragged, isReleased, isRegistering])
+
     useEffect(() => {
         if (!payload)
             return;
@@ -122,44 +259,6 @@ export const DataComponent = ({ id, title, topic, borderColor, chartType, measur
 
     }, [payload])
 
-    const handleDeleteButtonPressed = () => {
-        setIsDeleteVisible(true);
-    }
-
-    const handleEditButtonPressed = () => {
-        setIsEditVisible(true);
-    }
-
-
-    const handleDrag = () => {
-        setinitialMouseCoords({...mouseCoords});
-        setIsDragged(true);
-        setIsReleased(false);
-    }
-
-    const handleRelease = () => {
-        setCardCoords({x: 0, y: 0});
-        setIsDragged(false);
-        setIsReleased(true);
-    }
-
-    useEffect(() => {
-        window.addEventListener('mousemove', mouseMoveHandler);
-
-        return () => {
-            window.removeEventListener('mousemove', mouseMoveHandler);
-        }
-    }, [])
-
-    useEffect(() => {
-        if (isDragged && !isReleased) {
-            const x = mouseCoords.x - initialMouseCoords.x;
-            const y = mouseCoords.y - initialMouseCoords.y;
-
-            setCardCoords({x, y});
-        }
-    }, [mouseCoords, isDragged, isReleased])
-
     return (
         <>
             <div
@@ -167,9 +266,15 @@ export const DataComponent = ({ id, title, topic, borderColor, chartType, measur
                 onMouseDown={handleDrag}
                 onMouseUp={handleRelease}
                 ref={dataCard}
-                style={{'top': cardCoords.y, 'left': cardCoords.x, 'zIndex': isDragged ? '1' : '0'}}
+                style={{ 'top': relativeCardCoords.y, 'left': relativeCardCoords.x, 'zIndex': isDragged ? '1' : '0' }}
             >
-                <p>{JSON.stringify(mouseCoords)}</p>
+                <p>RC: {JSON.stringify(relativeCardCoords)}</p>
+                <p>TL: {JSON.stringify(cardCoords.topLeftCorner)}</p>
+                <p>TR: {JSON.stringify(cardCoords.topRightCorner)}</p>
+                <p>BR: {JSON.stringify(cardCoords.bottomRightCorner)}</p>
+                <p>BL: {JSON.stringify(cardCoords.bottomLeftCorner)}</p>
+                <p>Index: {currentIndex}</p>
+                <p>introding from: {text}</p>
                 <div className='data-title'>
                     <p>{title.toUpperCase()}</p>
                     <div className="data-card-opts">
