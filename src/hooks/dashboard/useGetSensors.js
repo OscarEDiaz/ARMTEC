@@ -5,7 +5,7 @@ import axios from 'axios';
 export const useGetSensors = (refresh, setRefresh) => {
     const [components, setComponents] = useState([]);
     const [isUpdated, setIsUpdated] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isFetching, setIsFetching] = useState(true);
 
     const mqttClientRef = useRef(null); // Utiliza useRef para mantener una referencia al cliente MQTT
 
@@ -21,7 +21,7 @@ export const useGetSensors = (refresh, setRefresh) => {
             const url = process.env.REACT_APP_BACKEND_URL;
 
             setIsUpdated(false);
-            setIsLoading(true);
+            setIsFetching(true);
             const response = await axios.get(`http://127.0.0.1:5000/db/sensors/home?user_id=1`, config);
 
             const { data } = response;
@@ -32,17 +32,16 @@ export const useGetSensors = (refresh, setRefresh) => {
                 return { id, title, borderColor, topic, chartType, measureUnit, backgroundColor, payload: 0 };
             });
 
-            console.log(sensors)
             setComponents(sensors);
             setIsUpdated(true);
-            setIsLoading(false);
+            setIsFetching(false);
         } catch {
             console.log('error');
         }
     };
 
     useEffect(() => {
-        if (!isLoading) {
+        if (!isFetching) {
             const options = {
                 username: process.env.REACT_APP_MQTT_USERNAME,
                 password: process.env.REACT_APP_MQTT_PASSWORD,
@@ -53,17 +52,18 @@ export const useGetSensors = (refresh, setRefresh) => {
                 const client = mqtt.connect('mqtts://e73fa1b672d243e88d4dcdba534d873f.s1.eu.hivemq.cloud:8884/mqtt', options);
                 mqttClientRef.current = client;
 
+
+                // TO-DO: WILL LOOP ON CONNECTING IF A TOPIC IS BLANK
                 client.on('connect', () => {
-                    console.log('connected');
-                    console.log('from client ', components)
+                    components.map(({topic}) => {
+                        client.subscribe(topic);
+                    })
                 });
 
 
                 client.on('message', (topic, message) => {
                     const data = message.toString();
                     const dataObj = JSON.parse(data);
-
-                    console.log(dataObj);
 
                     // Utiliza una función de actualización del estado para garantizar que uses la última versión de components
                     setComponents(prevComponents => {
@@ -79,11 +79,12 @@ export const useGetSensors = (refresh, setRefresh) => {
         }
 
         return () => {
-            if (mqttClientRef) {
+            if (mqttClientRef.current) {
                 mqttClientRef.current.end();
+                mqttClientRef.current = null;
             }
         }
-    }, [isLoading]);
+    }, [isFetching]);
 
     useEffect(() => {
         if (refresh) {
@@ -96,5 +97,5 @@ export const useGetSensors = (refresh, setRefresh) => {
         fetchSensors();
     }, []);
 
-    return [components, isLoading, isUpdated];
+    return {components, setComponents, isFetching};
 };
