@@ -148,19 +148,31 @@ export const DataComponent = ({ neighboursData, registerMeasure, currentIndex, i
                 const neighbourBottomLeftY = neighbour.cardInitialCoords['bottomLeftCorner'].y;
 
 
-                const intrudingFromTopRightCorner = cardCoords.topRightCorner.x >= neighbourTopLeftX && cardCoords.topRightCorner.y >= neighbourTopLeftY;
-                const topTreshold = cardCoords.topRightCorner.y >= neighbourTopLeftY;
-                const rightTreshold = cardCoords.topRightCorner.x <= neighbourTopRightX || cardCoords.bottomRightCorner.x <= neighbourBottomRightX;
-
-                const intrudingFromBottomRightCorner = cardCoords.bottomRightCorner.x >= neighbourBottomLeftX && cardCoords.bottomRightCorner.y <= neighbourBottomLeftY;
-                const bottomTreshold = cardCoords.bottomRightCorner.y <= neighbourBottomLeftY;
-
-                if (intrudingFromTopRightCorner && rightTreshold && topTreshold) {
-                    setText('Intruding BL')
-                }
+                const leftRightTopLeftTreshold = cardCoords.topLeftCorner.x > neighbourTopLeftX && cardCoords.topLeftCorner.x < neighbourTopRightX;
+                const leftRightTopRightTreshold = cardCoords.topRightCorner.x < neighbourTopRightX && cardCoords.topRightCorner.x > neighbourTopLeftX;
+                const leftRightBottomLeftTreshold = cardCoords.bottomLeftCorner.x > neighbourBottomLeftX && cardCoords.bottomLeftCorner.x < neighbourBottomRightX;
+                const leftRightBottomRightTreshold = cardCoords.bottomRightCorner.x < neighbourBottomRightX && cardCoords.bottomRightCorner.x > neighbourBottomLeftX;
                 
-                if (intrudingFromBottomRightCorner && bottomTreshold && rightTreshold) {
+                const topBottomTopLeftTreshold = cardCoords.topLeftCorner.y > neighbourTopRightY && cardCoords.topLeftCorner.y < neighbourBottomRightY;
+                const topBottomTopRightTreshold = cardCoords.topRightCorner.y > neighbourTopLeftY && cardCoords.topRightCorner.y < neighbourBottomLeftY;
+                const topBottomBottomLeftTreshold = cardCoords.bottomLeftCorner.y > neighbourTopRightY && cardCoords.bottomLeftCorner.y < neighbourBottomRightY;
+                const topBottomBottomRightTreshold = cardCoords.bottomRightCorner.y > neighbourTopLeftY && cardCoords.bottomRightCorner.y < neighbourBottomLeftY;
+
+                const intrudingFromTopRightCorner = cardCoords.topRightCorner.x > neighbourTopLeftX && cardCoords.topRightCorner.y > neighbourTopLeftY;
+                const intrudingFromTopLeftCorner = cardCoords.topLeftCorner.x > neighbourTopLeftX && cardCoords.topLeftCorner.y > neighbourTopRightY;
+                const intrudingFromBottomRightCorner = cardCoords.bottomRightCorner.x > neighbourBottomLeftX && cardCoords.bottomRightCorner.y < neighbourBottomLeftY;
+                const intrudingFromBottomLeftCorner = cardCoords.bottomLeftCorner.x > neighbourBottomLeftX && cardCoords.bottomLeftCorner.y > neighbourTopRightY;
+
+
+
+                if (intrudingFromTopRightCorner && leftRightTopRightTreshold && topBottomTopRightTreshold) {
+                    setText('Intruding TR')
+                } else if (intrudingFromBottomRightCorner && leftRightBottomRightTreshold && topBottomBottomRightTreshold) {
+                    setText('Intruding BR')
+                } else if (intrudingFromTopLeftCorner && leftRightTopLeftTreshold && topBottomTopLeftTreshold) {
                     setText('Intruding TL')
+                } else if (intrudingFromBottomLeftCorner && leftRightBottomLeftTreshold && topBottomBottomLeftTreshold) {
+                    setText('Intruding BL')
                 }
             }
         });
